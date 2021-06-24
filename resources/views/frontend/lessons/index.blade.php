@@ -38,19 +38,16 @@
                                         {{ trans('cruds.lesson.fields.short_text') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.lesson.fields.long_text') }}
+                                        {{ trans('cruds.lesson.fields.video') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.lesson.fields.video') }}
+                                        {{ trans('cruds.lesson.fields.link_video') }}
                                     </th>
                                     <th>
                                         {{ trans('cruds.lesson.fields.position') }}
                                     </th>
                                     <th>
                                         {{ trans('cruds.lesson.fields.is_published') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.lesson.fields.is_free') }}
                                     </th>
                                     <th>
                                         &nbsp;
@@ -80,9 +77,6 @@
                                             {{ $lesson->short_text ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $lesson->long_text ?? '' }}
-                                        </td>
-                                        <td>
                                             @if($lesson->video)
                                                 <a href="{{ $lesson->video->getUrl() }}" target="_blank">
                                                     {{ trans('global.view_file') }}
@@ -90,15 +84,14 @@
                                             @endif
                                         </td>
                                         <td>
+                                            {{ $lesson->link_video ?? '' }}
+                                        </td>
+                                        <td>
                                             {{ $lesson->position ?? '' }}
                                         </td>
                                         <td>
                                             <span style="display:none">{{ $lesson->is_published ?? '' }}</span>
                                             <input type="checkbox" disabled="disabled" {{ $lesson->is_published ? 'checked' : '' }}>
-                                        </td>
-                                        <td>
-                                            <span style="display:none">{{ $lesson->is_free ?? '' }}</span>
-                                            <input type="checkbox" disabled="disabled" {{ $lesson->is_free ? 'checked' : '' }}>
                                         </td>
                                         <td>
                                             @can('lesson_show')
@@ -172,7 +165,7 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 7, 'asc' ]],
     pageLength: 100,
   });
   let table = $('.datatable-Lesson:not(.ajaxTable)').DataTable({ buttons: dtButtons })

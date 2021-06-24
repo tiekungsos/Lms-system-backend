@@ -67,7 +67,7 @@
                                         {{ trans('cruds.lesson.fields.long_text') }}
                                     </th>
                                     <td>
-                                        {{ $lesson->long_text }}
+                                        {!! $lesson->long_text !!}
                                     </td>
                                 </tr>
                                 <tr>
@@ -84,6 +84,14 @@
                                 </tr>
                                 <tr>
                                     <th>
+                                        {{ trans('cruds.lesson.fields.link_video') }}
+                                    </th>
+                                    <td>
+                                        {{ $lesson->link_video }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
                                         {{ trans('cruds.lesson.fields.position') }}
                                     </th>
                                     <td>
@@ -96,14 +104,6 @@
                                     </th>
                                     <td>
                                         <input type="checkbox" disabled="disabled" {{ $lesson->is_published ? 'checked' : '' }}>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.lesson.fields.is_free') }}
-                                    </th>
-                                    <td>
-                                        <input type="checkbox" disabled="disabled" {{ $lesson->is_free ? 'checked' : '' }}>
                                     </td>
                                 </tr>
                             </tbody>
