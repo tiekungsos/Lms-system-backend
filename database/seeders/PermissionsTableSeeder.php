@@ -364,6 +364,14 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 89,
+                'title' => 'manager_couse_access',
+            ],
+            [
+                'id'    => 90,
+                'title' => 'test_manager_access',
+            ],
+            [
+                'id'    => 91,
                 'title' => 'profile_password_edit',
             ],
         ];

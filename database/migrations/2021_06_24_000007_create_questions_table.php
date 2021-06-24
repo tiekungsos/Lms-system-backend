@@ -10,7 +10,7 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('question_text');
+            $table->string('question_text')->nullable();
             $table->integer('points')->nullable();
             $table->timestamps();
             $table->softDeletes();
