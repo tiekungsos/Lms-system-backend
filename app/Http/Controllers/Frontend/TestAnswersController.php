@@ -20,7 +20,7 @@ class TestAnswersController extends Controller
     {
         abort_if(Gate::denies('test_answer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $testAnswers = TestAnswer::with(['test_result', 'question', 'option'])->get();
+        $testAnswers = TestAnswer::with(['test_result', 'question', 'option', 'created_by'])->get();
 
         return view('frontend.testAnswers.index', compact('testAnswers'));
     }
@@ -55,7 +55,7 @@ class TestAnswersController extends Controller
 
         $options = QuestionOption::all()->pluck('option_text', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $testAnswer->load('test_result', 'question', 'option');
+        $testAnswer->load('test_result', 'question', 'option', 'created_by');
 
         return view('frontend.testAnswers.edit', compact('test_results', 'questions', 'options', 'testAnswer'));
     }
@@ -71,7 +71,7 @@ class TestAnswersController extends Controller
     {
         abort_if(Gate::denies('test_answer_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $testAnswer->load('test_result', 'question', 'option');
+        $testAnswer->load('test_result', 'question', 'option', 'created_by');
 
         return view('frontend.testAnswers.show', compact('testAnswer'));
     }

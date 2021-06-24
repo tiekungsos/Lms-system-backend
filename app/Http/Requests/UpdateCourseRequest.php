@@ -34,6 +34,12 @@ class UpdateCourseRequest extends FormRequest
             'students' => [
                 'array',
             ],
+            'lessons.*' => [
+                'integer',
+            ],
+            'lessons' => [
+                'array',
+            ],
         ];
     }
 }

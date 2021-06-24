@@ -59,6 +59,22 @@
                 <span class="help-block">{{ trans('cruds.course.fields.is_published_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="lessons">{{ trans('cruds.course.fields.lesson') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('lessons') ? 'is-invalid' : '' }}" name="lessons[]" id="lessons" multiple>
+                    @foreach($lessons as $id => $lesson)
+                        <option value="{{ $id }}" {{ (in_array($id, old('lessons', [])) || $course->lessons->contains($id)) ? 'selected' : '' }}>{{ $lesson }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('lessons'))
+                    <span class="text-danger">{{ $errors->first('lessons') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.course.fields.lesson_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="students">{{ trans('cruds.course.fields.students') }}</label>
                 <div style="padding-bottom: 4px">
                     <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>

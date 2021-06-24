@@ -15,6 +15,8 @@ class AddRelationshipFieldsToTestAnswersTable extends Migration
             $table->foreign('question_id', 'question_fk_4110606')->references('id')->on('questions');
             $table->unsignedBigInteger('option_id')->nullable();
             $table->foreign('option_id', 'option_fk_4110607')->references('id')->on('question_options');
+            $table->unsignedBigInteger('created_by_id')->nullable();
+            $table->foreign('created_by_id', 'created_by_fk_4240297')->references('id')->on('users');
         });
     }
 }

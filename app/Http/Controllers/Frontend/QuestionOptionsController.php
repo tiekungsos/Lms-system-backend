@@ -18,7 +18,7 @@ class QuestionOptionsController extends Controller
     {
         abort_if(Gate::denies('question_option_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $questionOptions = QuestionOption::with(['question'])->get();
+        $questionOptions = QuestionOption::with(['question', 'created_by'])->get();
 
         return view('frontend.questionOptions.index', compact('questionOptions'));
     }
@@ -45,7 +45,7 @@ class QuestionOptionsController extends Controller
 
         $questions = Question::all()->pluck('question_text', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $questionOption->load('question');
+        $questionOption->load('question', 'created_by');
 
         return view('frontend.questionOptions.edit', compact('questions', 'questionOption'));
     }
@@ -61,7 +61,7 @@ class QuestionOptionsController extends Controller
     {
         abort_if(Gate::denies('question_option_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $questionOption->load('question');
+        $questionOption->load('question', 'created_by');
 
         return view('frontend.questionOptions.show', compact('questionOption'));
     }

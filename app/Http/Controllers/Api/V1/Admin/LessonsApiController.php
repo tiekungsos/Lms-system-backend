@@ -20,7 +20,7 @@ class LessonsApiController extends Controller
     {
         abort_if(Gate::denies('lesson_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new LessonResource(Lesson::with(['course'])->get());
+        return new LessonResource(Lesson::with(['course', 'created_by'])->get());
     }
 
     public function store(StoreLessonRequest $request)
@@ -44,7 +44,7 @@ class LessonsApiController extends Controller
     {
         abort_if(Gate::denies('lesson_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new LessonResource($lesson->load(['course']));
+        return new LessonResource($lesson->load(['course', 'created_by']));
     }
 
     public function update(UpdateLessonRequest $request, Lesson $lesson)

@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyCourseRequest;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class CoursesController extends Controller
         abort_if(Gate::denies('course_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Course::with(['teacher', 'students'])->select(sprintf('%s.*', (new Course())->table));
+            $query = Course::with(['teacher', 'students', 'lessons', 'created_by'])->select(sprintf('%s.*', (new Course())->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -80,13 +81,24 @@ class CoursesController extends Controller
 
                 return implode(' ', $labels);
             });
+            $table->editColumn('lesson', function ($row) {
+                $labels = [];
+                foreach ($row->lessons as $lesson) {
+                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $lesson->title);
+                }
 
-            $table->rawColumns(['actions', 'placeholder', 'teacher', 'thumbnail', 'is_published', 'students']);
+                return implode(' ', $labels);
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'teacher', 'thumbnail', 'is_published', 'students', 'lesson']);
 
             return $table->make(true);
         }
 
-        return view('admin.courses.index');
+        $users   = User::get();
+        $lessons = Lesson::get();
+
+        return view('admin.courses.index', compact('users', 'lessons'));
     }
 
     public function create()
@@ -97,13 +109,16 @@ class CoursesController extends Controller
 
         $students = User::all()->pluck('name', 'id');
 
-        return view('admin.courses.create', compact('teachers', 'students'));
+        $lessons = Lesson::all()->pluck('title', 'id');
+
+        return view('admin.courses.create', compact('teachers', 'students', 'lessons'));
     }
 
     public function store(StoreCourseRequest $request)
     {
         $course = Course::create($request->all());
         $course->students()->sync($request->input('students', []));
+        $course->lessons()->sync($request->input('lessons', []));
         foreach ($request->input('thumbnail', []) as $file) {
             $course->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('thumbnail');
         }
@@ -123,15 +138,18 @@ class CoursesController extends Controller
 
         $students = User::all()->pluck('name', 'id');
 
-        $course->load('teacher', 'students');
+        $lessons = Lesson::all()->pluck('title', 'id');
 
-        return view('admin.courses.edit', compact('teachers', 'students', 'course'));
+        $course->load('teacher', 'students', 'lessons', 'created_by');
+
+        return view('admin.courses.edit', compact('teachers', 'students', 'lessons', 'course'));
     }
 
     public function update(UpdateCourseRequest $request, Course $course)
     {
         $course->update($request->all());
         $course->students()->sync($request->input('students', []));
+        $course->lessons()->sync($request->input('lessons', []));
         if (count($course->thumbnail) > 0) {
             foreach ($course->thumbnail as $media) {
                 if (!in_array($media->file_name, $request->input('thumbnail', []))) {
@@ -153,7 +171,7 @@ class CoursesController extends Controller
     {
         abort_if(Gate::denies('course_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $course->load('teacher', 'students');
+        $course->load('teacher', 'students', 'lessons', 'created_by');
 
         return view('admin.courses.show', compact('course'));
     }

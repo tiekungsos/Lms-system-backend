@@ -22,7 +22,7 @@ class LessonsController extends Controller
     {
         abort_if(Gate::denies('lesson_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lessons = Lesson::with(['course', 'media'])->get();
+        $lessons = Lesson::with(['course', 'created_by', 'media'])->get();
 
         return view('frontend.lessons.index', compact('lessons'));
     }
@@ -61,7 +61,7 @@ class LessonsController extends Controller
 
         $courses = Course::all()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $lesson->load('course');
+        $lesson->load('course', 'created_by');
 
         return view('frontend.lessons.edit', compact('courses', 'lesson'));
     }
@@ -102,7 +102,7 @@ class LessonsController extends Controller
     {
         abort_if(Gate::denies('lesson_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lesson->load('course');
+        $lesson->load('course', 'created_by');
 
         return view('frontend.lessons.show', compact('lesson'));
     }

@@ -17,7 +17,7 @@ class QuestionOptionsApiController extends Controller
     {
         abort_if(Gate::denies('question_option_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new QuestionOptionResource(QuestionOption::with(['question'])->get());
+        return new QuestionOptionResource(QuestionOption::with(['question', 'created_by'])->get());
     }
 
     public function store(StoreQuestionOptionRequest $request)
@@ -33,7 +33,7 @@ class QuestionOptionsApiController extends Controller
     {
         abort_if(Gate::denies('question_option_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new QuestionOptionResource($questionOption->load(['question']));
+        return new QuestionOptionResource($questionOption->load(['question', 'created_by']));
     }
 
     public function update(UpdateQuestionOptionRequest $request, QuestionOption $questionOption)

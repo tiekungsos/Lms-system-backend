@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use \DateTimeInterface;
+use App\Traits\MultiTenantModelTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TestAnswer extends Model
 {
     use SoftDeletes;
+    use MultiTenantModelTrait;
     use HasFactory;
 
     public $table = 'test_answers';
@@ -28,6 +30,7 @@ class TestAnswer extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'created_by_id',
     ];
 
     public function test_result()
@@ -43,6 +46,11 @@ class TestAnswer extends Model
     public function option()
     {
         return $this->belongsTo(QuestionOption::class, 'option_id');
+    }
+
+    public function created_by()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)

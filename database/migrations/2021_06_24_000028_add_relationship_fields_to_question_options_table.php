@@ -11,6 +11,8 @@ class AddRelationshipFieldsToQuestionOptionsTable extends Migration
         Schema::table('question_options', function (Blueprint $table) {
             $table->unsignedBigInteger('question_id')->nullable();
             $table->foreign('question_id', 'question_fk_4110591')->references('id')->on('questions');
+            $table->unsignedBigInteger('created_by_id')->nullable();
+            $table->foreign('created_by_id', 'created_by_fk_4240295')->references('id')->on('users');
         });
     }
 }
