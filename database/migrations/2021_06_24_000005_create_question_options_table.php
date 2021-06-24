@@ -10,7 +10,7 @@ class CreateQuestionOptionsTable extends Migration
     {
         Schema::create('question_options', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('option_text');
+            $table->string('option_text')->nullable();
             $table->boolean('is_correct')->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();

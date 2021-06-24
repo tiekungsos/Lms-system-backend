@@ -60,7 +60,7 @@
                         </div>
                         <div class="form-group">
                             <label for="long_text">{{ trans('cruds.lesson.fields.long_text') }}</label>
-                            <textarea class="form-control" name="long_text" id="long_text">{{ old('long_text') }}</textarea>
+                            <textarea class="form-control ckeditor" name="long_text" id="long_text">{!! old('long_text') !!}</textarea>
                             @if($errors->has('long_text'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('long_text') }}
@@ -78,6 +78,16 @@
                                 </div>
                             @endif
                             <span class="help-block">{{ trans('cruds.lesson.fields.video_helper') }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="link_video">{{ trans('cruds.lesson.fields.link_video') }}</label>
+                            <input class="form-control" type="text" name="link_video" id="link_video" value="{{ old('link_video', '') }}">
+                            @if($errors->has('link_video'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('link_video') }}
+                                </div>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.lesson.fields.link_video_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label for="position">{{ trans('cruds.lesson.fields.position') }}</label>
@@ -101,19 +111,6 @@
                                 </div>
                             @endif
                             <span class="help-block">{{ trans('cruds.lesson.fields.is_published_helper') }}</span>
-                        </div>
-                        <div class="form-group">
-                            <div>
-                                <input type="hidden" name="is_free" value="0">
-                                <input type="checkbox" name="is_free" id="is_free" value="1" {{ old('is_free', 0) == 1 ? 'checked' : '' }}>
-                                <label for="is_free">{{ trans('cruds.lesson.fields.is_free') }}</label>
-                            </div>
-                            @if($errors->has('is_free'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('is_free') }}
-                                </div>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.lesson.fields.is_free_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-danger" type="submit">
@@ -191,16 +188,80 @@ Dropzone.options.thumbnailDropzone = {
 }
 </script>
 <script>
+    $(document).ready(function () {
+  function SimpleUploadAdapter(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = function(loader) {
+      return {
+        upload: function() {
+          return loader.file
+            .then(function (file) {
+              return new Promise(function(resolve, reject) {
+                // Init request
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '{{ route('admin.lessons.storeCKEditorImages') }}', true);
+                xhr.setRequestHeader('x-csrf-token', window._token);
+                xhr.setRequestHeader('Accept', 'application/json');
+                xhr.responseType = 'json';
+
+                // Init listeners
+                var genericErrorText = `Couldn't upload file: ${ file.name }.`;
+                xhr.addEventListener('error', function() { reject(genericErrorText) });
+                xhr.addEventListener('abort', function() { reject() });
+                xhr.addEventListener('load', function() {
+                  var response = xhr.response;
+
+                  if (!response || xhr.status !== 201) {
+                    return reject(response && response.message ? `${genericErrorText}\n${xhr.status} ${response.message}` : `${genericErrorText}\n ${xhr.status} ${xhr.statusText}`);
+                  }
+
+                  $('form').append('<input type="hidden" name="ck-media[]" value="' + response.id + '">');
+
+                  resolve({ default: response.url });
+                });
+
+                if (xhr.upload) {
+                  xhr.upload.addEventListener('progress', function(e) {
+                    if (e.lengthComputable) {
+                      loader.uploadTotal = e.total;
+                      loader.uploaded = e.loaded;
+                    }
+                  });
+                }
+
+                // Send request
+                var data = new FormData();
+                data.append('upload', file);
+                data.append('crud_id', '{{ $lesson->id ?? 0 }}');
+                xhr.send(data);
+              });
+            })
+        }
+      };
+    }
+  }
+
+  var allEditors = document.querySelectorAll('.ckeditor');
+  for (var i = 0; i < allEditors.length; ++i) {
+    ClassicEditor.create(
+      allEditors[i], {
+        extraPlugins: [SimpleUploadAdapter]
+      }
+    );
+  }
+});
+</script>
+
+<script>
     Dropzone.options.videoDropzone = {
     url: '{{ route('frontend.lessons.storeMedia') }}',
-    maxFilesize: 2, // MB
+    maxFilesize: 100, // MB
     maxFiles: 1,
     addRemoveLinks: true,
     headers: {
       'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
     params: {
-      size: 2
+      size: 100
     },
     success: function (file, response) {
       $('form').find('input[name="video"]').remove()

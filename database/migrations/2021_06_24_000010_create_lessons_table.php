@@ -10,12 +10,12 @@ class CreateLessonsTable extends Migration
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->longText('short_text')->nullable();
             $table->longText('long_text')->nullable();
+            $table->string('link_video')->nullable();
             $table->integer('position')->nullable();
             $table->boolean('is_published')->default(0)->nullable();
-            $table->boolean('is_free')->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

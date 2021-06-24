@@ -25,6 +25,10 @@ class UpdateLessonRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'link_video' => [
+                'string',
+                'nullable',
+            ],
             'position' => [
                 'nullable',
                 'integer',

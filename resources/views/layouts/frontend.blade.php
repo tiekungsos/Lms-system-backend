@@ -77,6 +77,51 @@
 
                                     <a class="dropdown-item" href="{{ route('frontend.profile.index') }}">{{ __('My profile') }}</a>
 
+                                    @can('manager_couse_access')
+                                        <a class="dropdown-item disabled" href="#">
+                                            {{ trans('cruds.managerCouse.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('course_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.courses.index') }}">
+                                            {{ trans('cruds.course.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('lesson_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.lessons.index') }}">
+                                            {{ trans('cruds.lesson.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('test_manager_access')
+                                        <a class="dropdown-item disabled" href="#">
+                                            {{ trans('cruds.testManager.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('test_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.tests.index') }}">
+                                            {{ trans('cruds.test.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('question_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.questions.index') }}">
+                                            {{ trans('cruds.question.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('question_option_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.question-options.index') }}">
+                                            {{ trans('cruds.questionOption.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('test_result_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.test-results.index') }}">
+                                            {{ trans('cruds.testResult.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('test_answer_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.test-answers.index') }}">
+                                            {{ trans('cruds.testAnswer.title') }}
+                                        </a>
+                                    @endcan
                                     @can('user_management_access')
                                         <a class="dropdown-item disabled" href="#">
                                             {{ trans('cruds.userManagement.title') }}
@@ -95,41 +140,6 @@
                                     @can('user_access')
                                         <a class="dropdown-item ml-3" href="{{ route('frontend.users.index') }}">
                                             {{ trans('cruds.user.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('course_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.courses.index') }}">
-                                            {{ trans('cruds.course.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('lesson_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.lessons.index') }}">
-                                            {{ trans('cruds.lesson.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('test_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.tests.index') }}">
-                                            {{ trans('cruds.test.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('question_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.questions.index') }}">
-                                            {{ trans('cruds.question.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('question_option_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.question-options.index') }}">
-                                            {{ trans('cruds.questionOption.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('test_result_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.test-results.index') }}">
-                                            {{ trans('cruds.testResult.title') }}
-                                        </a>
-                                    @endcan
-                                    @can('test_answer_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.test-answers.index') }}">
-                                            {{ trans('cruds.testAnswer.title') }}
                                         </a>
                                     @endcan
                                     @can('content_management_access')

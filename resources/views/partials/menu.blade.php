@@ -11,6 +11,11 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li>
+                    <select class="searchable-field form-control">
+
+                    </select>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route("admin.home") }}">
                         <i class="fas fa-fw fa-tachometer-alt nav-icon">
@@ -20,6 +25,120 @@
                         </p>
                     </a>
                 </li>
+                @can('manager_couse_access')
+                    <li class="nav-item has-treeview {{ request()->is("admin/courses*") ? "menu-open" : "" }} {{ request()->is("admin/lessons*") ? "menu-open" : "" }} {{ request()->is("admin/*") ? "menu-open" : "" }} {{ request()->is("admin/test-results*") ? "menu-open" : "" }} {{ request()->is("admin/test-answers*") ? "menu-open" : "" }}">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa-fw nav-icon fas fa-cogs">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.managerCouse.title') }}
+                                <i class="right fa fa-fw fa-angle-left nav-icon"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('course_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.courses.index") }}" class="nav-link {{ request()->is("admin/courses") || request()->is("admin/courses/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-cogs">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.course.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('lesson_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.lessons.index") }}" class="nav-link {{ request()->is("admin/lessons") || request()->is("admin/lessons/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-cogs">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.lesson.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('test_manager_access')
+                                <li class="nav-item has-treeview {{ request()->is("admin/tests*") ? "menu-open" : "" }} {{ request()->is("admin/questions*") ? "menu-open" : "" }} {{ request()->is("admin/question-options*") ? "menu-open" : "" }}">
+                                    <a class="nav-link nav-dropdown-toggle" href="#">
+                                        <i class="fa-fw nav-icon fas fa-cogs">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.testManager.title') }}
+                                            <i class="right fa fa-fw fa-angle-left nav-icon"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        @can('test_access')
+                                            <li class="nav-item">
+                                                <a href="{{ route("admin.tests.index") }}" class="nav-link {{ request()->is("admin/tests") || request()->is("admin/tests/*") ? "active" : "" }}">
+                                                    <i class="fa-fw nav-icon fas fa-cogs">
+
+                                                    </i>
+                                                    <p>
+                                                        {{ trans('cruds.test.title') }}
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        @can('question_access')
+                                            <li class="nav-item">
+                                                <a href="{{ route("admin.questions.index") }}" class="nav-link {{ request()->is("admin/questions") || request()->is("admin/questions/*") ? "active" : "" }}">
+                                                    <i class="fa-fw nav-icon fas fa-cogs">
+
+                                                    </i>
+                                                    <p>
+                                                        {{ trans('cruds.question.title') }}
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        @can('question_option_access')
+                                            <li class="nav-item">
+                                                <a href="{{ route("admin.question-options.index") }}" class="nav-link {{ request()->is("admin/question-options") || request()->is("admin/question-options/*") ? "active" : "" }}">
+                                                    <i class="fa-fw nav-icon fas fa-cogs">
+
+                                                    </i>
+                                                    <p>
+                                                        {{ trans('cruds.questionOption.title') }}
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcan
+                            @can('test_result_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.test-results.index") }}" class="nav-link {{ request()->is("admin/test-results") || request()->is("admin/test-results/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-cogs">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.testResult.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('test_answer_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.test-answers.index") }}" class="nav-link {{ request()->is("admin/test-answers") || request()->is("admin/test-answers/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-cogs">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.testAnswer.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
                 @can('user_management_access')
                     <li class="nav-item has-treeview {{ request()->is("admin/permissions*") ? "menu-open" : "" }} {{ request()->is("admin/roles*") ? "menu-open" : "" }} {{ request()->is("admin/users*") ? "menu-open" : "" }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
@@ -69,90 +188,6 @@
                                 </li>
                             @endcan
                         </ul>
-                    </li>
-                @endcan
-                @can('course_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.courses.index") }}" class="nav-link {{ request()->is("admin/courses") || request()->is("admin/courses/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
-
-                            </i>
-                            <p>
-                                {{ trans('cruds.course.title') }}
-                            </p>
-                        </a>
-                    </li>
-                @endcan
-                @can('lesson_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.lessons.index") }}" class="nav-link {{ request()->is("admin/lessons") || request()->is("admin/lessons/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
-
-                            </i>
-                            <p>
-                                {{ trans('cruds.lesson.title') }}
-                            </p>
-                        </a>
-                    </li>
-                @endcan
-                @can('test_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.tests.index") }}" class="nav-link {{ request()->is("admin/tests") || request()->is("admin/tests/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
-
-                            </i>
-                            <p>
-                                {{ trans('cruds.test.title') }}
-                            </p>
-                        </a>
-                    </li>
-                @endcan
-                @can('question_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.questions.index") }}" class="nav-link {{ request()->is("admin/questions") || request()->is("admin/questions/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
-
-                            </i>
-                            <p>
-                                {{ trans('cruds.question.title') }}
-                            </p>
-                        </a>
-                    </li>
-                @endcan
-                @can('question_option_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.question-options.index") }}" class="nav-link {{ request()->is("admin/question-options") || request()->is("admin/question-options/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
-
-                            </i>
-                            <p>
-                                {{ trans('cruds.questionOption.title') }}
-                            </p>
-                        </a>
-                    </li>
-                @endcan
-                @can('test_result_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.test-results.index") }}" class="nav-link {{ request()->is("admin/test-results") || request()->is("admin/test-results/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
-
-                            </i>
-                            <p>
-                                {{ trans('cruds.testResult.title') }}
-                            </p>
-                        </a>
-                    </li>
-                @endcan
-                @can('test_answer_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.test-answers.index") }}" class="nav-link {{ request()->is("admin/test-answers") || request()->is("admin/test-answers/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon fas fa-cogs">
-
-                            </i>
-                            <p>
-                                {{ trans('cruds.testAnswer.title') }}
-                            </p>
-                        </a>
                     </li>
                 @endcan
                 @can('content_management_access')

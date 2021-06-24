@@ -9,11 +9,11 @@ class AddRelationshipFieldsToTestAnswersTable extends Migration
     public function up()
     {
         Schema::table('test_answers', function (Blueprint $table) {
-            $table->unsignedBigInteger('test_result_id');
+            $table->unsignedBigInteger('test_result_id')->nullable();
             $table->foreign('test_result_id', 'test_result_fk_4110605')->references('id')->on('test_results');
-            $table->unsignedBigInteger('question_id');
+            $table->unsignedBigInteger('question_id')->nullable();
             $table->foreign('question_id', 'question_fk_4110606')->references('id')->on('questions');
-            $table->unsignedBigInteger('option_id');
+            $table->unsignedBigInteger('option_id')->nullable();
             $table->foreign('option_id', 'option_fk_4110607')->references('id')->on('question_options');
         });
     }
