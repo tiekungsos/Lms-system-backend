@@ -22,7 +22,7 @@ class QuestionsController extends Controller
     {
         abort_if(Gate::denies('question_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $questions = Question::with(['test', 'media'])->get();
+        $questions = Question::with(['test', 'created_by', 'media'])->get();
 
         return view('frontend.questions.index', compact('questions'));
     }
@@ -57,7 +57,7 @@ class QuestionsController extends Controller
 
         $tests = Test::all()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $question->load('test');
+        $question->load('test', 'created_by');
 
         return view('frontend.questions.edit', compact('tests', 'question'));
     }
@@ -84,7 +84,7 @@ class QuestionsController extends Controller
     {
         abort_if(Gate::denies('question_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $question->load('test');
+        $question->load('test', 'created_by');
 
         return view('frontend.questions.show', compact('question'));
     }

@@ -24,7 +24,7 @@ class LessonsController extends Controller
         abort_if(Gate::denies('lesson_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Lesson::with(['course'])->select(sprintf('%s.*', (new Lesson())->table));
+            $query = Lesson::with(['course', 'created_by'])->select(sprintf('%s.*', (new Lesson())->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -124,7 +124,7 @@ class LessonsController extends Controller
 
         $courses = Course::all()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $lesson->load('course');
+        $lesson->load('course', 'created_by');
 
         return view('admin.lessons.edit', compact('courses', 'lesson'));
     }
@@ -165,7 +165,7 @@ class LessonsController extends Controller
     {
         abort_if(Gate::denies('lesson_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lesson->load('course');
+        $lesson->load('course', 'created_by', 'lessonCourses');
 
         return view('admin.lessons.show', compact('lesson'));
     }

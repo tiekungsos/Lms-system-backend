@@ -17,7 +17,7 @@ class TestAnswersApiController extends Controller
     {
         abort_if(Gate::denies('test_answer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new TestAnswerResource(TestAnswer::with(['test_result', 'question', 'option'])->get());
+        return new TestAnswerResource(TestAnswer::with(['test_result', 'question', 'option', 'created_by'])->get());
     }
 
     public function store(StoreTestAnswerRequest $request)
@@ -33,7 +33,7 @@ class TestAnswersApiController extends Controller
     {
         abort_if(Gate::denies('test_answer_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new TestAnswerResource($testAnswer->load(['test_result', 'question', 'option']));
+        return new TestAnswerResource($testAnswer->load(['test_result', 'question', 'option', 'created_by']));
     }
 
     public function update(UpdateTestAnswerRequest $request, TestAnswer $testAnswer)

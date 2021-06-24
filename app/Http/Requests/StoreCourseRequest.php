@@ -34,6 +34,12 @@ class StoreCourseRequest extends FormRequest
             'students' => [
                 'array',
             ],
+            'lessons.*' => [
+                'integer',
+            ],
+            'lessons' => [
+                'array',
+            ],
         ];
     }
 }

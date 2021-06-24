@@ -21,7 +21,7 @@ class TestsController extends Controller
         abort_if(Gate::denies('test_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Test::with(['course', 'lesson'])->select(sprintf('%s.*', (new Test())->table));
+            $query = Test::with(['course', 'lesson', 'created_by'])->select(sprintf('%s.*', (new Test())->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -97,7 +97,7 @@ class TestsController extends Controller
 
         $lessons = Lesson::all()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $test->load('course', 'lesson');
+        $test->load('course', 'lesson', 'created_by');
 
         return view('admin.tests.edit', compact('courses', 'lessons', 'test'));
     }
@@ -113,7 +113,7 @@ class TestsController extends Controller
     {
         abort_if(Gate::denies('test_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $test->load('course', 'lesson');
+        $test->load('course', 'lesson', 'created_by');
 
         return view('admin.tests.show', compact('test'));
     }

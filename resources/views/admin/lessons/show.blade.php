@@ -114,6 +114,22 @@
     </div>
 </div>
 
-
+<div class="card">
+    <div class="card-header">
+        {{ trans('global.relatedData') }}
+    </div>
+    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href="#lesson_courses" role="tab" data-toggle="tab">
+                {{ trans('cruds.course.title') }}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane" role="tabpanel" id="lesson_courses">
+            @includeIf('admin.lessons.relationships.lessonCourses', ['courses' => $lesson->lessonCourses])
+        </div>
+    </div>
+</div>
 
 @endsection

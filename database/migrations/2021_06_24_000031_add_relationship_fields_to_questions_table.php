@@ -11,6 +11,8 @@ class AddRelationshipFieldsToQuestionsTable extends Migration
         Schema::table('questions', function (Blueprint $table) {
             $table->unsignedBigInteger('test_id')->nullable();
             $table->foreign('test_id', 'test_fk_4110583')->references('id')->on('tests');
+            $table->unsignedBigInteger('created_by_id')->nullable();
+            $table->foreign('created_by_id', 'created_by_fk_4240293')->references('id')->on('users');
         });
     }
 }

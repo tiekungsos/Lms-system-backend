@@ -95,6 +95,10 @@ return [
             'updated_at_helper'   => ' ',
             'deleted_at'          => 'Deleted At',
             'deleted_at_helper'   => ' ',
+            'created_by'          => 'Created By',
+            'created_by_helper'   => ' ',
+            'lesson'              => 'บทเรียน',
+            'lesson_helper'       => 'รายการบทเรียน',
         ],
     ],
     'lesson' => [
@@ -127,6 +131,8 @@ return [
             'deleted_at_helper'   => ' ',
             'link_video'          => 'วีดีโอ URL',
             'link_video_helper'   => 'ถ้าคุณไม่มีไฟล์วีดีโอคุณสามารถเพิ่มลิงค์จากแหล่งที่มาอย่างอื่นได้',
+            'created_by'          => 'Created By',
+            'created_by_helper'   => ' ',
         ],
     ],
     'test' => [
@@ -151,6 +157,8 @@ return [
             'updated_at_helper'   => ' ',
             'deleted_at'          => 'Deleted At',
             'deleted_at_helper'   => ' ',
+            'created_by'          => 'Created By',
+            'created_by_helper'   => ' ',
         ],
     ],
     'question' => [
@@ -173,6 +181,8 @@ return [
             'updated_at_helper'     => ' ',
             'deleted_at'            => 'Deleted At',
             'deleted_at_helper'     => ' ',
+            'created_by'            => 'Created By',
+            'created_by_helper'     => ' ',
         ],
     ],
     'questionOption' => [
@@ -193,6 +203,8 @@ return [
             'updated_at_helper'  => ' ',
             'deleted_at'         => 'Deleted At',
             'deleted_at_helper'  => ' ',
+            'created_by'         => 'Created By',
+            'created_by_helper'  => ' ',
         ],
     ],
     'testResult' => [
@@ -213,6 +225,8 @@ return [
             'updated_at_helper' => ' ',
             'deleted_at'        => 'Deleted At',
             'deleted_at_helper' => ' ',
+            'created_by'        => 'Created By',
+            'created_by_helper' => ' ',
         ],
     ],
     'testAnswer' => [
@@ -235,6 +249,8 @@ return [
             'updated_at_helper'  => ' ',
             'deleted_at'         => 'Deleted At',
             'deleted_at_helper'  => ' ',
+            'created_by'         => 'Created By',
+            'created_by_helper'  => ' ',
         ],
     ],
     'contentManagement' => [

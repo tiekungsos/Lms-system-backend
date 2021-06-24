@@ -11,6 +11,8 @@ class AddRelationshipFieldsToLessonsTable extends Migration
         Schema::table('lessons', function (Blueprint $table) {
             $table->unsignedBigInteger('course_id')->nullable();
             $table->foreign('course_id', 'course_fk_4110561')->references('id')->on('courses');
+            $table->unsignedBigInteger('created_by_id')->nullable();
+            $table->foreign('created_by_id', 'created_by_fk_4240284')->references('id')->on('users');
         });
     }
 }

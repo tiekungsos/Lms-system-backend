@@ -13,6 +13,8 @@ class AddRelationshipFieldsToTestResultsTable extends Migration
             $table->foreign('test_id', 'test_fk_4110598')->references('id')->on('tests');
             $table->unsignedBigInteger('student_id')->nullable();
             $table->foreign('student_id', 'student_fk_4110599')->references('id')->on('users');
+            $table->unsignedBigInteger('created_by_id')->nullable();
+            $table->foreign('created_by_id', 'created_by_fk_4240296')->references('id')->on('users');
         });
     }
 }

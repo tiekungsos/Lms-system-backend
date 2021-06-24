@@ -22,7 +22,7 @@ class TestAnswersController extends Controller
         abort_if(Gate::denies('test_answer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = TestAnswer::with(['test_result', 'question', 'option'])->select(sprintf('%s.*', (new TestAnswer())->table));
+            $query = TestAnswer::with(['test_result', 'question', 'option', 'created_by'])->select(sprintf('%s.*', (new TestAnswer())->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -100,7 +100,7 @@ class TestAnswersController extends Controller
 
         $options = QuestionOption::all()->pluck('option_text', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $testAnswer->load('test_result', 'question', 'option');
+        $testAnswer->load('test_result', 'question', 'option', 'created_by');
 
         return view('admin.testAnswers.edit', compact('test_results', 'questions', 'options', 'testAnswer'));
     }
@@ -116,7 +116,7 @@ class TestAnswersController extends Controller
     {
         abort_if(Gate::denies('test_answer_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $testAnswer->load('test_result', 'question', 'option');
+        $testAnswer->load('test_result', 'question', 'option', 'created_by');
 
         return view('admin.testAnswers.show', compact('testAnswer'));
     }

@@ -19,7 +19,7 @@ class TestResultsController extends Controller
     {
         abort_if(Gate::denies('test_result_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $testResults = TestResult::with(['test', 'student'])->get();
+        $testResults = TestResult::with(['test', 'student', 'created_by'])->get();
 
         return view('frontend.testResults.index', compact('testResults'));
     }
@@ -50,7 +50,7 @@ class TestResultsController extends Controller
 
         $students = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $testResult->load('test', 'student');
+        $testResult->load('test', 'student', 'created_by');
 
         return view('frontend.testResults.edit', compact('tests', 'students', 'testResult'));
     }
@@ -66,7 +66,7 @@ class TestResultsController extends Controller
     {
         abort_if(Gate::denies('test_result_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $testResult->load('test', 'student');
+        $testResult->load('test', 'student', 'created_by');
 
         return view('frontend.testResults.show', compact('testResult'));
     }
